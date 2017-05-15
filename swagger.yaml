@@ -1,0 +1,415 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: VideoRentalStore
+  description: A sample REST API for a VideoRentalStore
+basePath: /videorentalstore
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+definitions:
+  FilmKind:
+    type: string
+    enum: &ref_0
+      - new
+      - regular
+      - old
+  Film:
+    type: object
+    required:
+      - title
+      - kind
+    properties:
+      filmId:
+        type: string
+      title:
+        type: string
+      kind:
+        $ref: '#/definitions/FilmKind'
+      rentedBy:
+        $ref: '#/definitions/Customer'
+      rentedOn:
+        type: string
+        format: date
+      deleted:
+        type: boolean
+  FilmData:
+    type: object
+    properties:
+      title:
+        type: string
+      kind:
+        $ref: '#/definitions/FilmKind'
+  Customer:
+    type: object
+    required:
+      - name
+      - address
+      - phone
+    properties:
+      customerId:
+        type: string
+      name:
+        type: string
+      address:
+        type: string
+      phone:
+        type: string
+      bonusPoints:
+        type: integer
+        format: int32
+      suspended:
+        type: boolean
+  CustomerData:
+    type: object
+    properties:
+      name:
+        type: string
+      address:
+        type: string
+      phone:
+        type: string
+  ReturnDesc:
+    type: object
+    required:
+      - customerId
+      - filmIds
+    properties:
+      customerId:
+        type: string
+      filmIds:
+        type: array
+        items:
+          type: string
+  RentDesc:
+    type: object
+    required:
+      - customerId
+      - films
+    properties:
+      customerId:
+        type: string
+      films:
+        type: array
+        items:
+          $ref: '#/definitions/FilmRent'
+  FilmRent:
+    type: object
+    required:
+      - filmId
+    properties:
+      filmId:
+        type: string
+      days:
+        type: integer
+        format: int32
+  RentResponse:
+    type: object
+    required:
+      - filmId
+      - pay
+      - bonusPoints
+    properties:
+      filmId:
+        type: string
+      pay:
+        type: integer
+        format: int32
+      bonusPoints:
+        type: integer
+        format: int32
+      message:
+        type: string
+  ReturnResponse:
+    type: object
+    required:
+      - filmId
+      - paid
+      - dueToPay
+    properties:
+      filmId:
+        type: string
+      paid:
+        type: integer
+        format: int32
+      dueToPay:
+        type: integer
+        format: int32
+      message:
+        type: string
+  Error:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+paths:
+  /rent:
+    post:
+      description: Customer rents a set of films
+      operationId: rent
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Films rented by customer
+          required: true
+          schema:
+            $ref: '#/definitions/RentDesc'
+      responses:
+        '200':
+          description: Returns the price per Film and the bonus points earned
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RentResponse'
+        '404':
+          description: Customer not found
+  /return:
+    post:
+      description: Customer returns a set of films
+      operationId: return
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Films returned by Customer
+          required: true
+          schema:
+            $ref: '#/definitions/ReturnDesc'
+      responses:
+        '200':
+          description: 'Returns the price (paid, due) per Film and the bonus points earned'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ReturnResponse'
+        '404':
+          description: Customer not found
+  /customer:
+    post:
+      description: 'Creates a Customer, assigns new customerId'
+      operationId: createCustomer
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Customer object to be created
+          required: true
+          schema:
+            $ref: '#/definitions/CustomerData'
+      responses:
+        '200':
+          description: Retruns the created Customer
+          schema:
+            $ref: '#/definitions/Customer'
+  '/customer/{customerId}':
+    get:
+      description: Retrieves Customer by Id
+      operationId: getCustomerById
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: customerId
+          description: Id of the Customer to be retrieved
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Retruns Customer
+          schema:
+            $ref: '#/definitions/Customer'
+        '404':
+          description: Customer not found
+    put:
+      description: Updates fields of an existing Customer
+      operationId: updateCustomer
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: customerId
+          description: Id of the Customer to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: 'Updates Customer object''s name, address, phone'
+          required: true
+          schema:
+            $ref: '#/definitions/CustomerData'
+      responses:
+        '200':
+          description: Retruns the updated Customer
+          schema:
+            $ref: '#/definitions/Customer'
+        '404':
+          description: Customer not found
+    delete:
+      description: Deletes a Customer
+      operationId: deleteCustomer
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: customerId
+          description: Id of the Customer to be deleted
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Retruns the deleted Customer
+          schema:
+            $ref: '#/definitions/Customer'
+        '404':
+          description: Customer not found
+  /customer/findby:
+    get:
+      description: Finds Customer
+      operationId: findCustomer
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: name
+          description: Regexp matched to name
+          required: false
+          type: string
+        - in: query
+          name: address
+          description: Regexp matched to address
+          required: false
+          type: string
+        - in: query
+          name: phone
+          description: Regexp matched to phone
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Retruns the found Customer(s)
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Customer'
+        '404':
+          description: Customer not found
+  /film:
+    post:
+      description: 'Creates a Film, assigns new filmId'
+      operationId: createFilm
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Film object to be created
+          required: true
+          schema:
+            $ref: '#/definitions/FilmData'
+      responses:
+        '200':
+          description: Retruns the created Film
+          schema:
+            $ref: '#/definitions/Film'
+  '/film/{filmId}':
+    get:
+      description: Retrieves film by Id
+      operationId: getFilmById
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: filmId
+          description: Id of the Film to be retrieved
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Retruns the Film
+          schema:
+            $ref: '#/definitions/Film'
+        '404':
+          description: Film not found
+    put:
+      description: Updates a Film
+      operationId: updateFilm
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: filmId
+          description: Id of the Film to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: 'Film object''s title, kind'
+          required: true
+          schema:
+            $ref: '#/definitions/FilmData'
+      responses:
+        '200':
+          description: Retruns the updated Film
+          schema:
+            $ref: '#/definitions/Film'
+        '404':
+          description: Film not found
+    delete:
+      description: Deletes a Film
+      operationId: deleteFilm
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: filmId
+          description: Id of the Film to be deleted
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Retruns the deleted Film
+          schema:
+            $ref: '#/definitions/Film'
+        '404':
+          description: Film not found
+  /film/findby:
+    get:
+      description: Finds Film(s)
+      operationId: findFilm
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: title
+          description: Regexp matched to title
+          required: false
+          type: string
+        - in: query
+          name: kind
+          description: Choose kind
+          required: false
+          type: string
+          enum: *ref_0
+      responses:
+        '200':
+          description: Retruns the found Film(s)
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Film'
+        '404':
+          description: Film not found

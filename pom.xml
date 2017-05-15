@@ -21,6 +21,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dropwizard.version>1.1.0</dropwizard.version>
         <mainClass>com.tapifolti.videorentalstore.VideoRentalStoreApplication</mainClass>
+        <swagger-core-version>1.5.12</swagger-core-version>
     </properties>
 
     <dependencyManagement>
@@ -39,6 +40,12 @@
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-jersey2-jaxrs</artifactId>
+            <scope>compile</scope>
+            <version>${swagger-core-version}</version>
         </dependency>
     </dependencies>
 
@@ -117,6 +124,27 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.12</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/gen/java</source>
+                                <source>src/main/java</source>
+                                <source>src/test/java</source>
+                            </sources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
