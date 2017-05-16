@@ -1,3 +1,4 @@
+# logging
 logging:
   level: INFO
   loggers:
@@ -12,3 +13,18 @@ logging:
       archivedFileCount: 5
       timeZone: UTC
       maxFileSize: 5MB
+
+# renting conditions
+rentConditions:
+  premiumInitialPrice: 40
+  premiumDayPrice: 40
+  premiumInitialDays: 1
+  premiumBonusPoint: 2
+  regularInitialPrice: 30
+  regularDayPrice: 30
+  regularInitialDays: 3
+  regularBonusPoint: 1
+  oldInitialPrice: 30
+  oldDayPrice: 30
+  oldInitialDays: 5
+  oldBonusPoint: 1

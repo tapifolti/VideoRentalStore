@@ -24,20 +24,28 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-05-15T13:31:36.632+02:00")
 public class CustomerApiServiceImpl extends CustomerApiService {
 
-    @Inject
-    CustomerDao customerDao;
+    private CustomerDao customerDao;
+    public CustomerApiServiceImpl(CustomerDao customerDao) {
+        this.customerDao = customerDao;
+    }
 
     @Override
     public Response createCustomer(CustomerData body, SecurityContext securityContext) throws NotFoundException {
         Customer customer = customerDao.createCustomer(body);
-        return Response.ok().entity(customer).build();
+        return Response
+                .ok()
+                .entity(customer)
+                .build();
     }
 
     @Override
     public Response deleteCustomer(String customerId, SecurityContext securityContext) throws NotFoundException {
         Optional<Customer> optCustomer = customerDao.deleteCustomer(customerId);
         if (optCustomer.isPresent()) {
-            return Response.ok().entity(optCustomer.get()).build();
+            return Response
+                    .ok()
+                    .entity(optCustomer.get())
+                    .build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -47,7 +55,10 @@ public class CustomerApiServiceImpl extends CustomerApiService {
     public Response findCustomer( String name,  String address,  String phone, SecurityContext securityContext) throws NotFoundException {
         List<Customer> customers = customerDao.findCustomer(name, address, phone);
         if (!customers.isEmpty()) {
-            return Response.ok().entity(customers).build();
+            return Response
+                    .ok()
+                    .entity(customers)
+                    .build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -67,7 +78,10 @@ public class CustomerApiServiceImpl extends CustomerApiService {
     public Response updateCustomer(String customerId, CustomerData body, SecurityContext securityContext) throws NotFoundException {
         Optional<Customer> optCustomer = customerDao.updateCustomer(customerId, body);
         if (optCustomer.isPresent()) {
-            return Response.ok().entity(optCustomer.get()).build();
+            return Response
+                    .ok()
+                    .entity(optCustomer.get())
+                    .build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

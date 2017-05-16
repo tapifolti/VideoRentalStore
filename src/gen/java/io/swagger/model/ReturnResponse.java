@@ -23,7 +23,7 @@ import javax.validation.constraints.*;
 /**
  * ReturnResponse
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-05-15T21:13:37.898+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-05-16T16:06:48.217+02:00")
 public class ReturnResponse   {
   @JsonProperty("filmId")
   private String filmId = null;
@@ -31,8 +31,8 @@ public class ReturnResponse   {
   @JsonProperty("paid")
   private Integer paid = null;
 
-  @JsonProperty("dueToPay")
-  private Integer dueToPay = null;
+  @JsonProperty("totalToPay")
+  private Integer totalToPay = null;
 
   @JsonProperty("message")
   private String message = null;
@@ -77,24 +77,24 @@ public class ReturnResponse   {
     this.paid = paid;
   }
 
-  public ReturnResponse dueToPay(Integer dueToPay) {
-    this.dueToPay = dueToPay;
+  public ReturnResponse totalToPay(Integer totalToPay) {
+    this.totalToPay = totalToPay;
     return this;
   }
 
    /**
-   * Get dueToPay
-   * @return dueToPay
+   * Get totalToPay
+   * @return totalToPay
   **/
-  @JsonProperty("dueToPay")
+  @JsonProperty("totalToPay")
   @ApiModelProperty(required = true, value = "")
   @NotNull
-  public Integer getDueToPay() {
-    return dueToPay;
+  public Integer getTotalToPay() {
+    return totalToPay;
   }
 
-  public void setDueToPay(Integer dueToPay) {
-    this.dueToPay = dueToPay;
+  public void setTotalToPay(Integer totalToPay) {
+    this.totalToPay = totalToPay;
   }
 
   public ReturnResponse message(String message) {
@@ -128,13 +128,13 @@ public class ReturnResponse   {
     ReturnResponse returnResponse = (ReturnResponse) o;
     return Objects.equals(this.filmId, returnResponse.filmId) &&
         Objects.equals(this.paid, returnResponse.paid) &&
-        Objects.equals(this.dueToPay, returnResponse.dueToPay) &&
+        Objects.equals(this.totalToPay, returnResponse.totalToPay) &&
         Objects.equals(this.message, returnResponse.message);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(filmId, paid, dueToPay, message);
+    return Objects.hash(filmId, paid, totalToPay, message);
   }
 
 
@@ -145,7 +145,7 @@ public class ReturnResponse   {
     
     sb.append("    filmId: ").append(toIndentedString(filmId)).append("\n");
     sb.append("    paid: ").append(toIndentedString(paid)).append("\n");
-    sb.append("    dueToPay: ").append(toIndentedString(dueToPay)).append("\n");
+    sb.append("    totalToPay: ").append(toIndentedString(totalToPay)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
     return sb.toString();

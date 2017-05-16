@@ -1,5 +1,6 @@
 package com.tapifolti.videorentalstore.resources;
 
+import com.tapifolti.videorentalstore.api.RentConditions;
 import com.tapifolti.videorentalstore.api.RentReturnLogic;
 import com.tapifolti.videorentalstore.db.CustomerDao;
 import com.tapifolti.videorentalstore.db.FilmDao;
@@ -26,11 +27,14 @@ import java.util.Optional;
 public class RentApiServiceImpl extends RentApiService {
     final static Logger log = LoggerFactory.getLogger(RentApiServiceImpl.class);
 
-    @Inject
-    CustomerDao customerDao;
-
-    @Inject
-    FilmDao filmDao;
+    public RentApiServiceImpl(FilmDao filmDao, CustomerDao customerDao, RentConditions rentConditions) {
+        this.customerDao = customerDao;
+        this.filmDao = filmDao;
+        this.rentConditions = rentConditions;
+    }
+    private CustomerDao customerDao;
+    private FilmDao filmDao;
+    private RentConditions rentConditions;
 
     @Override
     public Response rent(RentDesc body, SecurityContext securityContext) throws NotFoundException {
@@ -40,9 +44,8 @@ public class RentApiServiceImpl extends RentApiService {
             return Response.status(Response.Status.NOT_FOUND).build();
         } else if (optCustomer.get().getSuspended()) {
             return Response.status(Response.Status.NOT_FOUND).entity("Customer is suspended").build();
-
         }
-        List<RentResponse> rentResponseList = RentReturnLogic.rent(filmDao, optCustomer.get().getCustomerId(), body.getFilms());
-        return Response.ok().entity(rentResponseList).build();
+        RentResponse[] rentResponseArr = new RentReturnLogic().rent(rentConditions, filmDao, customerDao, optCustomer.get(), body.getFilms());
+        return Response.ok().entity(rentResponseArr).build();
     }
 }

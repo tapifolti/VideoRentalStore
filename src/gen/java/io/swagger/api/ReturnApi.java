@@ -1,36 +1,34 @@
 package io.swagger.api;
 
-import io.swagger.model.*;
-import io.swagger.api.ReturnApiService;
-import io.swagger.api.factories.ReturnApiServiceFactory;
-
+import com.tapifolti.videorentalstore.api.RentConditions;
+import com.tapifolti.videorentalstore.db.CustomerDao;
+import com.tapifolti.videorentalstore.db.FilmDao;
+import com.tapifolti.videorentalstore.resources.RentApiServiceImpl;
+import com.tapifolti.videorentalstore.resources.ReturnApiServiceImpl;
 import io.swagger.annotations.ApiParam;
-import io.swagger.jaxrs.*;
 
 import io.swagger.model.ReturnDesc;
 import io.swagger.model.ReturnResponse;
 
-import java.util.List;
-import io.swagger.api.NotFoundException;
-
-import java.io.InputStream;
-
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataParam;
-
+import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
-import javax.validation.constraints.*;
 
 @Path("/return")
 @Consumes({ "application/json" })
 @Produces({ "application/json" })
 @io.swagger.annotations.Api(description = "the return API")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-05-15T21:13:37.898+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-05-16T16:06:48.217+02:00")
 public class ReturnApi  {
-   private final ReturnApiService delegate = ReturnApiServiceFactory.getReturnApi();
+    private ReturnApiService delegate;
+
+    @Inject
+    public ReturnApi(FilmDao filmDao, CustomerDao customerDao, RentConditions rentConditions) {
+        delegate = new ReturnApiServiceImpl(filmDao, customerDao, rentConditions);
+    }
+
 
     @POST
     

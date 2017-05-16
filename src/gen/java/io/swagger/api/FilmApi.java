@@ -1,36 +1,32 @@
 package io.swagger.api;
 
-import io.swagger.model.*;
-import io.swagger.api.FilmApiService;
-import io.swagger.api.factories.FilmApiServiceFactory;
+import com.tapifolti.videorentalstore.db.CustomerDao;
+import com.tapifolti.videorentalstore.db.FilmDao;
+import com.tapifolti.videorentalstore.resources.FilmApiServiceImpl;
 
 import io.swagger.annotations.ApiParam;
-import io.swagger.jaxrs.*;
 
 import io.swagger.model.Film;
 import io.swagger.model.FilmData;
 
-import java.util.List;
-import io.swagger.api.NotFoundException;
-
-import java.io.InputStream;
-
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataParam;
-
+import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
-import javax.validation.constraints.*;
 
 @Path("/film")
 @Consumes({ "application/json" })
 @Produces({ "application/json" })
 @io.swagger.annotations.Api(description = "the film API")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-05-15T21:13:37.898+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-05-16T16:06:48.217+02:00")
 public class FilmApi  {
-   private final FilmApiService delegate = FilmApiServiceFactory.getFilmApi();
+
+    @Inject
+    public FilmApi(FilmDao filmDao, CustomerDao customerDao) {
+     delegate = new FilmApiServiceImpl(filmDao, customerDao);
+    }
+    private FilmApiService delegate;
 
     @POST
     

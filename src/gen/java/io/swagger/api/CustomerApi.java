@@ -1,36 +1,31 @@
 package io.swagger.api;
 
-import io.swagger.model.*;
-import io.swagger.api.CustomerApiService;
-import io.swagger.api.factories.CustomerApiServiceFactory;
+import com.tapifolti.videorentalstore.db.CustomerDao;
+import com.tapifolti.videorentalstore.resources.CustomerApiServiceImpl;
 
 import io.swagger.annotations.ApiParam;
-import io.swagger.jaxrs.*;
 
 import io.swagger.model.Customer;
 import io.swagger.model.CustomerData;
 
-import java.util.List;
-import io.swagger.api.NotFoundException;
-
-import java.io.InputStream;
-
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataParam;
-
+import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
-import javax.validation.constraints.*;
 
 @Path("/customer")
 @Consumes({ "application/json" })
 @Produces({ "application/json" })
 @io.swagger.annotations.Api(description = "the customer API")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-05-15T21:13:37.898+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-05-16T16:06:48.217+02:00")
 public class CustomerApi  {
-   private final CustomerApiService delegate = CustomerApiServiceFactory.getCustomerApi();
+
+    @Inject
+    public CustomerApi(CustomerDao customerDao) {
+        delegate = new CustomerApiServiceImpl(customerDao);
+    }
+    private CustomerApiService delegate;
 
     @POST
     

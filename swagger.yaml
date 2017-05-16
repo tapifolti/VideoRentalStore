@@ -129,14 +129,14 @@ definitions:
     required:
       - filmId
       - paid
-      - dueToPay
+      - totalToPay
     properties:
       filmId:
         type: string
       paid:
         type: integer
         format: int32
-      dueToPay:
+      totalToPay:
         type: integer
         format: int32
       message:

@@ -1,1 +1,1 @@
-See swagger generated model in src/gen/java/io.swagger/model. It makes possible easy API modification via swagger.
+See also swagger generated model in src/gen/java/io.swagger/model. It makes possible easy API modification via swagger.

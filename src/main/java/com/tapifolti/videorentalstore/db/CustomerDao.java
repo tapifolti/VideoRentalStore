@@ -16,5 +16,6 @@ public interface CustomerDao {
     public List<Customer> findCustomer(String name, String address, String phone);
     public Optional<Customer> getCustomerById(String customerId);
     public Optional<Customer> updateCustomer(String customerId, CustomerData body);
+    public Optional<Customer> addBonusPoints(String customerId, int points);
 
 }
