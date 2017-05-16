@@ -58,7 +58,7 @@ public class InMemoryFilms implements FilmDao {
         public synchronized boolean rentFilm(String customerId, int rentedForDays) {
             if (!film.getDeleted() && film.getRentedBy() == null) {
                 film.setRentedBy(customerId);
-                film.setRentedOn(new Date());
+                film.setRentedOn(LocalDate.now());
                 film.setRentedForDays(rentedForDays);
                 return true;
             } else {
@@ -77,9 +77,8 @@ public class InMemoryFilms implements FilmDao {
                 return 0;
             }
             // swagger generated java.util.Date :(
-            Date rentedOn = film.getRentedOn();
             LocalDate now = LocalDate.now();
-            LocalDate then = LocalDate.of(rentedOn.getYear(), rentedOn.getMonth(), rentedOn.getDate());
+            LocalDate then = film.getRentedOn();;
             int totalDays = (int)ChronoUnit.DAYS.between(then, now);
             film.setRentedBy(null);
             film.setRentedOn(null);

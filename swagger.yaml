@@ -34,7 +34,6 @@ definitions:
         $ref: '#/definitions/Customer'
       rentedOn:
         type: string
-        format: date
       deleted:
         type: boolean
   FilmData:

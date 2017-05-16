@@ -5,6 +5,8 @@ import io.swagger.model.Customer;
 import io.swagger.model.Film;
 import io.swagger.model.FilmKind;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Optional;
 
@@ -19,30 +21,34 @@ public class FilmCore {
 
     private Film film;
     private String rentedByCustomerId;
+    private LocalDate rentedOn;
     private int rentedForDays;
 
-    public FilmCore(String filmId, String title, FilmKind kind, String rentedByCustomerId, Date rentedOn, boolean deleted, int rentedforDays) {
+    public FilmCore(String filmId, String title, FilmKind kind, String rentedByCustomerId, LocalDate rentedOn, boolean deleted, int rentedforDays) {
         film = new Film()
             .filmId(filmId)
             .title(title)
             .kind(kind)
             .rentedBy(null)
-            .rentedOn(rentedOn)
+            .rentedOn(null)
             .deleted(deleted);
         this.rentedByCustomerId = rentedByCustomerId;
         this.rentedForDays = rentedforDays;
+        this.rentedOn = rentedOn;
     }
 
     public FilmCore clone() {
-        return new FilmCore(film.getFilmId(), film.getTitle(), film.getKind(), rentedByCustomerId, film.getRentedOn(), film.getDeleted(), rentedForDays);
+        return new FilmCore(film.getFilmId(), film.getTitle(), film.getKind(), rentedByCustomerId, rentedOn, film.getDeleted(), rentedForDays);
     }
 
     public Film getResolved(CustomerDao customerDao) {
         Optional<Customer> optCustomer = customerDao.getCustomerById(rentedByCustomerId);
         if (optCustomer.isPresent()) {
             film.setRentedBy(optCustomer.get());
+            film.setRentedOn(rentedOn.format(DateTimeFormatter.ofPattern("uuuu-MM-dd")));
         } else {
             film.setRentedBy(null);
+            film.setRentedOn(null);
         }
         return film;
     }
@@ -79,11 +85,11 @@ public class FilmCore {
         rentedByCustomerId = customerId;
     }
 
-    public Date getRentedOn() {
-        return film.getRentedOn();
+    public LocalDate getRentedOn() {
+        return rentedOn;
     }
-    public void setRentedOn(Date date) {
-        film.setRentedOn(date);
+    public void setRentedOn(LocalDate date) {
+        rentedOn = date;
     }
 
     public int getRentedForDays() {

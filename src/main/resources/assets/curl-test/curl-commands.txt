@@ -1,0 +1,38 @@
+#Create Customer
+curl -H "Content-Type: application/json" -X POST -d "{\"name\": \"Customer1\",\"address\": \"Elm street\",\"phone\": \"12121212\"}" http://localhost:8080/customer
+# Answers:
+# {"customerId":"75701a07-5b67-4e80-aeab-07eec40e98c6","name":"Customer1","address":"Elm street","phone":"12121212","bonusPoints":0,"suspended":false}
+
+# Create Film
+curl -H "Content-Type: application/json" -X POST -d "{\"title\": \"Film1\",\"kind\": \"new\"}" http://localhost:8080/film
+# Answers
+# {"filmId":"74dbc1d0-46bf-4f01-b803-a87cd71e78c2","title":"Film1","kind":"NEW","rentedBy":null,"rentedOn":null,"deleted":false}
+
+# Get all customers
+curl http://localhost:8080/customer/findby
+# Search customers
+curl http://localhost:8080/customer/findby?name=.*1
+# Get specific Customer
+curl http://localhost:8080/customer/{customerId}
+# Delete specific Customer -- sets deleted flag
+curl -X DELETE http://localhost:8080/customer/{customerId}
+# Modify specific Customer
+curl -H "Content-Type: application/json" -X PUT -d "{\"name\":\"Mycustomer1\"}" http://localhost:8080/customer/{customerId}
+
+
+# Get all films
+curl http://localhost:8080/film/findby
+# Search films
+curl http://localhost:8080/film/findby?title=.*1
+# Get specific Film
+curl http://localhost:8080/film/{filmId}
+# Delete specific Film -- sets deleted flag
+curl -X DELETE http://localhost:8080/film/{filmId}
+# Modify specific film
+curl -H "Content-Type: application/json" -X PUT -d "{\"title\":\"Myfilm1\"}" http://localhost:8080/film/{filmId}
+
+
+# rent
+curl -H "Content-Type: application/json" -X POST -d "{\"customerId\": \"75701a07-5b67-4e80-aeab-07eec40e98c6\",\"films\": [{\"filmId\": \"74dbc1d0-46bf-4f01-b803-a87cd71e78c2\",\"days\": 5}]}" http://localhost:8080/rent
+# return
+curl -H "Content-Type: application/json" -X POST -d "{\"customerId\": \"75701a07-5b67-4e80-aeab-07eec40e98c6\",\"filmIds\": [\"74dbc1d0-46bf-4f01-b803-a87cd71e78c2\"]}" http://localhost:8080/return

@@ -5,6 +5,9 @@ import com.tapifolti.videorentalstore.api.RentConditions;
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.validation.constraints.*;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,7 +15,7 @@ import java.util.Map;
 
 public class VideoRentalStoreConfiguration extends Configuration {
     // TODO: implement service configuration
-
+    final static Logger log = LoggerFactory.getLogger(VideoRentalStoreConfiguration.class);
 
     @NotNull
     private RentConditions rentConditions = new RentConditions();
@@ -24,9 +27,9 @@ public class VideoRentalStoreConfiguration extends Configuration {
 
     @JsonProperty("rentConditions")
     public void setRentConditions(Map<String, Integer> rentConditions) {
-        rentConditions.clear();
+        this.rentConditions.clear();
         for (Map.Entry<String, Integer> entry : rentConditions.entrySet()) {
-            rentConditions.put(entry.getKey(), entry.getValue());
+            this.rentConditions.put(entry.getKey(), entry.getValue());
         }
     }
 }

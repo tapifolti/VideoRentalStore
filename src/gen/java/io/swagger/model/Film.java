@@ -20,13 +20,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Customer;
 import io.swagger.model.FilmKind;
-import java.util.Date;
 import javax.validation.constraints.*;
 
 /**
  * Film
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-05-16T16:06:48.217+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-05-16T23:41:35.911+02:00")
 public class Film   {
   @JsonProperty("filmId")
   private String filmId = null;
@@ -41,7 +40,7 @@ public class Film   {
   private Customer rentedBy = null;
 
   @JsonProperty("rentedOn")
-  private Date rentedOn = null;
+  private String rentedOn = null;
 
   @JsonProperty("deleted")
   private Boolean deleted = null;
@@ -124,7 +123,7 @@ public class Film   {
     this.rentedBy = rentedBy;
   }
 
-  public Film rentedOn(Date rentedOn) {
+  public Film rentedOn(String rentedOn) {
     this.rentedOn = rentedOn;
     return this;
   }
@@ -135,11 +134,11 @@ public class Film   {
   **/
   @JsonProperty("rentedOn")
   @ApiModelProperty(value = "")
-  public Date getRentedOn() {
+  public String getRentedOn() {
     return rentedOn;
   }
 
-  public void setRentedOn(Date rentedOn) {
+  public void setRentedOn(String rentedOn) {
     this.rentedOn = rentedOn;
   }
 

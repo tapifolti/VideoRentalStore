@@ -14,10 +14,14 @@ import io.swagger.api.FilmApi;
 import io.swagger.api.RentApi;
 import io.swagger.api.ReturnApi;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.slf4j.Logger;
+
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 
 public class VideoRentalStoreApplication extends Application<VideoRentalStoreConfiguration> {
+    final static Logger log = LoggerFactory.getLogger(VideoRentalStoreApplication.class);
 
     public static class DependencyInjection extends AbstractBinder {
         private VideoRentalStoreConfiguration configuration;

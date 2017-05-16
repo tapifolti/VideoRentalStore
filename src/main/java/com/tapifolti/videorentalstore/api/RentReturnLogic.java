@@ -3,9 +3,9 @@ package com.tapifolti.videorentalstore.api;
 import com.tapifolti.videorentalstore.db.CustomerDao;
 import com.tapifolti.videorentalstore.db.FilmDao;
 import io.swagger.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
  * Created by tapifolti on 5/15/2017.
  */
 public class RentReturnLogic {
-
+    final static Logger log = LoggerFactory.getLogger(RentReturnLogic.class);
 
     private int calcPrice(RentConditions rentConditions, FilmKind kind, int days) {
         int initDays = 0;
@@ -115,6 +115,7 @@ public class RentReturnLogic {
                 int totalPrice = calcPrice(rentConditions, optFilm.get().getKind(), totalDays);
                 response.setPaid(paidPrice);
                 response.setTotalToPay(totalPrice);
+                log.info("paidDays:" + paidDays + " totalDays:" + totalDays + " paidPrice:" + paidPrice + " totalPrice:" + totalPrice + " totalPrice-paidPrice:" + (totalPrice-paidPrice));
                 response.setMessage("Please pay additionally: " + Integer.toString(totalPrice-paidPrice));
             }
         }

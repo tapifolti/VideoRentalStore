@@ -15,21 +15,21 @@ Approach
     1. Cannot use constructor parameters on resource classes as they are swagger generated
     1. Swagger do not generate Java8 compatible code
     1. Finally needed to modify swagger generated classes as HK2 dependency injection worked only on REST API classes (FilmApi, CustomerApi, RentApi, ReturnApi)
+1. `src/main/resources/assets/curl-test` folder contains curl commands to test the API
 
 Focus points and missing parts
 ---
 
 1. Focused on REST API layout/design
 1. Targeted to have a working solution
-1. Implemented an in memory data store instead of using real database, so concurrency issues was addressed at this level, it can be a permanent solution for small data sets with additional persistence management
-1. All features can work concurrently
+1. Implemented an in memory data store instead of using real database, so concurrency issues was addressed at this level, it can be a permanent solution for small data sets with additional persistence management, as a result all features can work concurrently
 1. Had no time for to add
     1. appropriate logging
     1. health check
-    1. required amount of unit and integration test cases
-    1. javadoc comments
-    1. test and address all error cases
-    1. input validation (dropwizard provided one do not work with swagger)
+    1. unit and integration test cases -- sorry for it
+    1. javadoc comments -- same
+    1. test and manage all error cases
+    1. input validation (dropwizard provided one does not work with swagger)
 
 How to maintain the API
 ---
@@ -47,20 +47,15 @@ How to maintain the API
 How to start the VideoRentalStore application
 ---
 
-1. Run `mvn clean install` to build your application
+1. Run `mvn clean install` to build application
 1. Start application with `java -jar target/VideoRentalStore-1.0-SNAPSHOT.jar server config.yml`
-1. To check that your application is running enter url `http://localhost:8080`
+1. To check that application is running use curl commands in `src/main/resources/assets/curl-test`
 
 Health Check
 ---
 
-To see your applications health enter url `http://localhost:8081/healthcheck`
+To see the applications health enter url `http://localhost:8081/healthcheck`
 
-
-Sample requests
----
-
-1. TODO with curl
 
 How to generate client code for the REST API
 ---
@@ -72,10 +67,10 @@ How to generate client code for the REST API
 Open tasks - To Do List
 ---
 
-1. Configure price and bonus points
-1. Add unit test
-1. Sample requests
+1. Add unit test -- next time before refactoring
 1. Show `swagger.yaml` via http
 1. Add authentication and authorization support
 1. Implement real database access layer and create database schema
 1. Administration
+1. Known bugs:
+    1. `film/findby` and `customer/findby` used with incorrect regexp throws exception
