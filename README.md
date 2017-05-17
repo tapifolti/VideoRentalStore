@@ -13,7 +13,6 @@ Approach
     1. Dropwizard's advised project layout was changed
     1. Lost dropwizard provided input validation at REST entry point level, as it is swagger generated
     1. Cannot use constructor parameters on resource classes as they are swagger generated
-    1. Swagger do not generate Java8 compatible code
     1. Finally needed to modify swagger generated classes as HK2 dependency injection worked only on REST API classes (FilmApi, CustomerApi, RentApi, ReturnApi)
 1. `src/main/resources/assets/curl-test` folder contains curl commands to test the API
 
@@ -26,7 +25,7 @@ Focus points and missing parts
 1. Had no time for to add
     1. appropriate logging
     1. health check
-    1. unit and integration test cases -- sorry for it
+    1. unit and integration test cases -- sorry for it, should have been invested much more time and implement something JBehave or Cucumber based test suit
     1. javadoc comments -- same
     1. test and manage all error cases
     1. input validation (dropwizard provided one does not work with swagger)
@@ -67,7 +66,7 @@ How to generate client code for the REST API
 Open tasks - To Do List
 ---
 
-1. Add unit test -- next time before refactoring
+1. Add more unit test and some integration (with DB usage) -- next time before refactoring
 1. Show `swagger.yaml` via http
 1. Add authentication and authorization support
 1. Implement real database access layer and create database schema

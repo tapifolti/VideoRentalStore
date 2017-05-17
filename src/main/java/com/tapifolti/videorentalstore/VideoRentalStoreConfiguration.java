@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class VideoRentalStoreConfiguration extends Configuration {
-    // TODO: implement service configuration
-    final static Logger log = LoggerFactory.getLogger(VideoRentalStoreConfiguration.class);
 
     @NotNull
     private RentConditions rentConditions = new RentConditions();

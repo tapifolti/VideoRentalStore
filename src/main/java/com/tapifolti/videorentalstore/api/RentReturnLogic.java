@@ -15,7 +15,7 @@ import java.util.Optional;
 public class RentReturnLogic {
     final static Logger log = LoggerFactory.getLogger(RentReturnLogic.class);
 
-    private int calcPrice(RentConditions rentConditions, FilmKind kind, int days) {
+    public int calcPrice(RentConditions rentConditions, FilmKind kind, int days) {
         int initDays = 0;
         int initPrice = 0;
         int dayPrice = 0;
@@ -43,7 +43,7 @@ public class RentReturnLogic {
         }
     }
 
-    private int calcBonus(RentConditions rentConditions, FilmKind kind) {
+    public int calcBonus(RentConditions rentConditions, FilmKind kind) {
         int bonus = 0;
         switch (kind){
             case NEW:
